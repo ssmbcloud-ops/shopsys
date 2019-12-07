@@ -313,7 +313,7 @@ class DefaultController extends AdminBaseController
     }
 
     /**
-     * @Route("/cron-schedule/{serviceId}")
+     * @Route("/cron/schedule/{serviceId}")
      * @param string $serviceId
      * @return \Symfony\Component\HttpFoundation\Response
      */

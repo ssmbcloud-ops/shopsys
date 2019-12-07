@@ -32,9 +32,7 @@
             'admin_default_schedulecron', {
                 serviceId: row.id,
             }
-        ) }}" class="btn btn--small">{{ 'Schedule'|trans }}</a>
-    {% else %}
-        <span class="btn btn--small btn--disabled">{{ 'Scheduled'|trans }}</span>
+        ) }}" class="in-icon in-icon--edit svg svg-schedule" title="{{ 'Schedule'|trans }}"></a>
     {% endif %}
 
     {% if row.enabled == false %}
