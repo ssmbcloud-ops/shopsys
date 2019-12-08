@@ -440,9 +440,6 @@
     "phing/phing": {
         "version": "2.16.1"
     },
-    "php": {
-        "version": "7.2"
-    },
     "php-cs-fixer/diff": {
         "version": "v1.3.0"
     },
@@ -906,9 +903,6 @@
         "files": [
             "project-base/config/packages/security.yaml"
         ]
-    },
-    "symfony/service-contracts": {
-        "version": "v1.1.8"
     },
     "symfony/stopwatch": {
         "version": "v3.4.32"
