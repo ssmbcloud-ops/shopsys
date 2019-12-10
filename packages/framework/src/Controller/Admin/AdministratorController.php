@@ -105,7 +105,7 @@ class AdministratorController extends AdminBaseController
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $id
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, int $id)
     {
         $administrator = $this->administratorFacade->getById($id);
 
@@ -134,8 +134,8 @@ class AdministratorController extends AdminBaseController
             try {
                 $this->administratorFacade->edit($id, $administratorData);
 
-                if ($administrator->getId() === (int)$id) {
-                    $this->administratorRolesChangedFacade->refreshAdministratorToke($administrator);
+                if ($administrator->getId() === $id) {
+                    $this->administratorRolesChangedFacade->refreshAdministratorToken($administrator);
                 }
 
                 $this->getFlashMessageSender()->addSuccessFlashTwig(

@@ -34,7 +34,7 @@ class AdministratorRolesChangedFacade
     /**
      * @param \Shopsys\FrameworkBundle\Model\Administrator\Administrator $administrator
      */
-    public function refreshAdministratorToke(Administrator $administrator): void
+    public function refreshAdministratorToken(Administrator $administrator): void
     {
         $token = new UsernamePasswordToken($administrator, $administrator->getPassword(), 'administration', $administrator->getRoles());
         $this->tokenStorage->setToken($token);

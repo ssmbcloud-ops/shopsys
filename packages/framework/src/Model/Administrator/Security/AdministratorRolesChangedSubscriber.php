@@ -63,7 +63,7 @@ class AdministratorRolesChangedSubscriber implements EventSubscriberInterface
         }
 
         if ($administrator instanceof Administrator && $this->rolesChanged === true) {
-            $this->administratorRolesChangedFacade->refreshAdministratorToke($administrator);
+            $this->administratorRolesChangedFacade->refreshAdministratorToken($administrator);
         }
     }
 
