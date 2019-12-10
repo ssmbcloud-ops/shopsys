@@ -134,7 +134,7 @@ class AdministratorController extends AdminBaseController
             try {
                 $this->administratorFacade->edit($id, $administratorData);
 
-                if ($administrator->getId() === $id) {
+                if ($loggedUser->getId() === $id) {
                     $this->administratorRolesChangedFacade->refreshAdministratorToken($administrator);
                 }
 
