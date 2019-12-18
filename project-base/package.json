@@ -34,6 +34,7 @@
         "time-grunt": "^1.4.0"
     },
     "dependencies": {
+        "bazinga-translator": "^2.6.6",
         "codemirror": "^5.49.2",
         "framework": "file:../packages/framework",
         "jquery": "^3.4.1",
