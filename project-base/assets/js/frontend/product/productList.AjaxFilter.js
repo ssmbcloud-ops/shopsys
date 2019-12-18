@@ -23,7 +23,9 @@ export default class ProductListAjaxFilter {
 
         this.$showResultsButton.click(function () {
             const $productList = $('.js-product-list');
-            $('html, body').animate({ scrollTop: $productList.offset().top }, 'slow');
+            if ($productList && $productList.offset()) {
+                $('html, body').animate({ scrollTop: $productList.offset().top }, 'slow');
+            }
             return false;
         });
 
