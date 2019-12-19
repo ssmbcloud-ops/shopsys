@@ -7,6 +7,7 @@ namespace Shopsys\FrameworkBundle\Model\Product;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Elasticsearch\ElasticsearchStructureManager;
 use Shopsys\FrameworkBundle\Component\Paginator\PaginationResult;
+use Shopsys\FrameworkBundle\Model\Category\Category;
 use Shopsys\FrameworkBundle\Model\Customer\CurrentCustomer;
 use Shopsys\FrameworkBundle\Model\Product\Accessory\ProductAccessoryRepository;
 use Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterConfig;
@@ -306,5 +307,47 @@ class ProductOnCurrentDomainElasticFacade implements ProductOnCurrentDomainFacad
             $this->domain->getId(),
             ProductElasticsearchRepository::ELASTICSEARCH_INDEX
         );
+    }
+
+    /**
+     * @param int $limit
+     * @param int $offset
+     * @param string $orderingModeId
+     * @return array
+     */
+    public function getProductsOnCurrentDomain(int $limit, int $offset, string $orderingModeId)
+    {
+        $emptyProductFilterData = new ProductFilterData();
+        $filterQuery = $this->createFilterQueryWithProductFilterData(
+            $emptyProductFilterData,
+            $orderingModeId,
+            1,
+            $limit
+        )->setFrom($offset);
+
+        $productsResult = $this->productElasticsearchRepository->getSortedProductsResultByFilterQuery($filterQuery);
+        return $productsResult->getHits();
+    }
+
+    /**
+     * @param Category $category
+     * @param int $limit
+     * @param int $offset
+     * @param string $orderingModeId
+     * @return array
+     */
+    public function getProductsByCategory(Category $category, int $limit, int $offset, string $orderingModeId)
+    {
+        $emptyProductFilterData = new ProductFilterData();
+        $filterQuery = $this->createListableProductsInCategoryFilterQuery(
+            $emptyProductFilterData,
+            $orderingModeId,
+            1,
+            $limit,
+            $category->getId()
+        )->setFrom($offset);
+
+        $productsResult = $this->productElasticsearchRepository->getSortedProductsResultByFilterQuery($filterQuery);
+        return $productsResult->getHits();
     }
 }

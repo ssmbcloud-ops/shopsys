@@ -775,6 +775,14 @@ class Product extends AbstractTranslatableEntity
     }
 
     /**
+     * @return \Shopsys\FrameworkBundle\Model\Product\Product|null
+     */
+    public function findMainVariant(): ?Product
+    {
+        return $this->mainVariant;
+    }
+
+    /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $variant
      */
     public function addVariant(self $variant)

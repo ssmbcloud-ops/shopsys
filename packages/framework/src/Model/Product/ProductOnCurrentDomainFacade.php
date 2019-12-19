@@ -2,7 +2,9 @@
 
 namespace Shopsys\FrameworkBundle\Model\Product;
 
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Shopsys\FrameworkBundle\Component\Doctrine\SortableNullsWalker;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Category\Category;
 use Shopsys\FrameworkBundle\Model\Category\CategoryRepository;
@@ -147,38 +149,51 @@ class ProductOnCurrentDomainFacade implements ProductOnCurrentDomainFacadeInterf
     }
 
     /**
+     * @param Category $category
+     * @param int $limit
+     * @param int $offset
      * @param string $orderingModeId
-     * @param \Shopsys\FrameworkBundle\Model\Category\Category $category
-     * @return \Doctrine\ORM\QueryBuilder
-     * @deprecated This method will be removed after changing dependency in ProductsResolver from ProductOnCurrentDomainFacade to ProductOnCurrentDomainFacadeInterface
+     * @return array
      */
-    public function getAllListableTranslatedAndOrderedQueryBuilderByCategory(
-        string $orderingModeId,
-        Category $category
-    ): QueryBuilder {
-        return $this->productRepository->getAllListableTranslatedAndOrderedQueryBuilderByCategory(
+    public function getProductsByCategory(Category $category, int $limit, int $offset, string $orderingModeId)
+    {
+        $queryBuilder = $this->productRepository->getAllListableTranslatedAndOrderedQueryBuilderByCategory(
             $this->domain->getId(),
             $this->domain->getLocale(),
             $orderingModeId,
             $this->currentCustomer->getPricingGroup(),
             $category
         );
+
+        $queryBuilder->setFirstResult($offset)
+            ->setMaxResults($limit);
+        $query = $queryBuilder->getQuery();
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, SortableNullsWalker::class);
+
+        return $query->execute();
     }
 
     /**
+     * @param int $limit
+     * @param int $offset
      * @param string $orderingModeId
-     * @return \Doctrine\ORM\QueryBuilder
-     * @deprecated This method will be removed after changing dependency in ProductsResolver from ProductOnCurrentDomainFacade to ProductOnCurrentDomainFacadeInterface
+     * @return array
      */
-    public function getAllListableTranslatedAndOrderedQueryBuilder(
-        string $orderingModeId
-    ): QueryBuilder {
-        return $this->productRepository->getAllListableTranslatedAndOrderedQueryBuilder(
+    public function getProductsOnCurrentDomain(int $limit, int $offset, string $orderingModeId)
+    {
+        $queryBuilder = $this->productRepository->getAllListableTranslatedAndOrderedQueryBuilder(
             $this->domain->getId(),
             $this->domain->getLocale(),
             $orderingModeId,
             $this->currentCustomer->getPricingGroup()
         );
+
+        $queryBuilder->setFirstResult($offset)
+            ->setMaxResults($limit);
+        $query = $queryBuilder->getQuery();
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, SortableNullsWalker::class);
+
+        return $query->execute();
     }
 
     /**

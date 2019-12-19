@@ -152,6 +152,7 @@ class ProductSearchExportWithFilterRepository
         $prices = $this->extractPrices($domainId, $product);
         $visibility = $this->extractVisibility($domainId, $product);
         $detailUrl = $this->extractDetailUrl($domainId, $product);
+        $variantIds = $this->extractVariantIds($product);
 
         return [
             'id' => $product->getId(),
@@ -171,10 +172,31 @@ class ProductSearchExportWithFilterRepository
             'calculated_selling_denied' => $product->getCalculatedSellingDenied(),
             'selling_denied' => $product->isSellingDenied(),
             'availability' => $product->getCalculatedAvailability()->getName($locale),
-            'main_variant' => $product->isMainVariant(),
+            'is_main_variant' => $product->isMainVariant(),
             'detail_url' => $detailUrl,
             'visibility' => $visibility,
+            'uuid' => $product->getUuid(),
+            'unit' => $product->getUnit()->getName(),
+            'is_using_stock' => $product->isUsingStock(),
+            'stock_quantity' => $product->getStockQuantity(),
+            'variants' => $variantIds,
+            'main_variant' => $product->findMainVariant(),
         ];
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @return array
+     */
+    protected function extractVariantIds(Product $product): array
+    {
+        $variantIds = [];
+
+        foreach ($product->getVariants() as $variant) {
+            $variantIds = $variant->getId();
+        }
+
+        return $variantIds;
     }
 
     /**

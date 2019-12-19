@@ -2,6 +2,7 @@
 
 namespace Shopsys\FrameworkBundle\Model\Product;
 
+use Shopsys\FrameworkBundle\Model\Category\Category;
 use Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterConfig;
 use Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterData;
 
@@ -76,4 +77,21 @@ interface ProductOnCurrentDomainFacadeInterface
      * @return \Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterCountData
      */
     public function getProductFilterCountDataForSearch($searchText, ProductFilterConfig $productFilterConfig, ProductFilterData $productFilterData);
+
+    /**
+     * @param Category $category
+     * @param int $limit
+     * @param int $offset
+     * @param string $orderingModeId
+     * @return array
+     */
+    public function getProductsByCategory(Category $category, int $limit, int $offset, string $orderingModeId);
+
+    /**
+     * @param int $limit
+     * @param int $offset
+     * @param string $orderingModeId
+     * @return array
+     */
+    public function getProductsOnCurrentDomain(int $limit, int $offset, string $orderingModeId);
 }
