@@ -304,6 +304,45 @@ There you can find links to upgrade notes for other versions too.
           
  - There is a new base html layout with horizontal menu and product filter placed in left panel, for detail information see [the separate article](upgrade-instructions-for-base-layout.md)
  
+ - add possibility to change place to get data for FE API ([#1557](https://github.com/shopsys/shopsys/pull/1557))
+         - add and change fields in your elasticsearch definition files
+             ```diff
+             -   main_variant
+             +   is_main_variant
+             
+             +   "uuid": {
+             +      "type": "text"
+             +   },
+             +   "unit": {
+             +      "type": "text"
+             +   },
+             +   "is_using_stock": {
+             +      "type": "boolean"
+             +   },
+             +   "stock_quantity": {
+             +      "type": "boolean"
+             +   },
+             +   "variants": {
+             +       "type": "integer"
+             +   },
+             +   "main_variant": {
+             +      "type": "integer"
+             +   }
+             ```
+         - change and include new fields in ProductSearchExportWithFilterRepositoryTest
+             ```diff
+                 'selling_denied',
+             -   'main_variant',
+             +   'is_main_variant',
+                 'visibility',
+             +   'uuid',
+             +   'unit',
+             +   'is_using_stock',
+             +   'stock_quantity',
+             +   'variants',
+             +   'main_variant',
+             ```
+ 
 ### Tools
 
 - apply coding standards checks on your `app` folder ([#1306](https://github.com/shopsys/shopsys/pull/1306))
